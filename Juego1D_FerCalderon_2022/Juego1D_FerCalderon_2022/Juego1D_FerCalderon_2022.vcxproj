@@ -152,6 +152,7 @@
     <ClCompile Include="src\Engine\ManagersEngine\TimerManager.cpp" />
     <ClCompile Include="src\GameAssets\EnemyScripts\EnemyEntity.cpp" />
     <ClCompile Include="src\GameAssets\EntityComponentSystem\Components.cpp" />
+    <ClCompile Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.cpp" />
     <ClCompile Include="src\GameAssets\EntityComponentSystem\EntityAndComponent.cpp" />
     <ClCompile Include="src\GameAssets\MessageSystem\MyMessageSystem.cpp" />
     <ClCompile Include="src\GameAssets\PlayerScripts\PlayerEntity.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\Engine\ManagersEngine\TimerManager.h" />
     <ClInclude Include="src\GameAssets\EnemyScripts\EnemyEntity.h" />
     <ClInclude Include="src\GameAssets\EntityComponentSystem\Components.h" />
+    <ClInclude Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.h" />
     <ClInclude Include="src\GameAssets\EntityComponentSystem\EntityAndComponent.h" />
     <ClInclude Include="src\GameAssets\MessageSystem\MyMessageSystem.h" />
     <ClInclude Include="src\Engine\ManagersEngine\ISingleton.h" />
