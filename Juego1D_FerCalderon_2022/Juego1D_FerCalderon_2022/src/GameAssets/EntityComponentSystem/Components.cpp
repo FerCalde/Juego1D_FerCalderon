@@ -166,3 +166,13 @@ void CMP_Collider::RecibirMsg(Message* _msgType)
 //}
 
 #pragma endregion
+
+void CMP_Render::SetSymbol(char _objectSymbol)
+{
+	m_symbolObject = _objectSymbol;
+}
+
+char CMP_Render::GetSymbol() const
+{
+	return m_symbolObject;
+}
