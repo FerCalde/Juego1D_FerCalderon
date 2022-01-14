@@ -15,12 +15,22 @@ void RenderEngine::ShutdownRender()
 	o_myMap = nullptr;
 }
 
+void RenderEngine::UpdateGameObjectPosition(Entity& _entityRenderToUpdate)
+{
+	for (auto& _entityRenderToUpdat: LogicManager::GetInstance().m_entitiesList)
+	{
+				
+	}
+}
+
 
 void RenderEngine::RenderSlot(const float& _fps,const float& _elapsed,const float& _currentTime)
 {
+	ClearScene();
 	std::string mapString(o_myMap->ptrMyBoard);
 	std::cout << mapString << "\n";
-	ClearScene();
+	//std::cout << mapString << "\n" <<std::flush;
+	//ClearScene();
 
 	//LogicManager* instanceLogicManager = LogicManager::GetInstance();
 	//// Render
