@@ -2,12 +2,12 @@
 #include <windows.h>
 #include <iostream>
 
-class MyTimer
+class MyTimerManager
 {
 public:
 
-	MyTimer();
-	~MyTimer();
+	MyTimerManager();
+	~MyTimerManager();
 
 	void StartCounter();
 	float GetTime();

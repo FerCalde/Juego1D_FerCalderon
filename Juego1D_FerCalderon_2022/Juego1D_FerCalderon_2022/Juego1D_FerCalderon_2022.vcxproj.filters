@@ -95,5 +95,8 @@
     <ClInclude Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Juego1D_FerCalderon_2022.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

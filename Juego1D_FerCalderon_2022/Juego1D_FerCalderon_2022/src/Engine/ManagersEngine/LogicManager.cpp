@@ -1,10 +1,12 @@
 #include "LogicManager.h"
+#include "..\..\Juego1D_FerCalderon_2022.h"
 
 //Forward Declaration de m_instance 
 //LogicManager* LogicManager::m_instance = nullptr;
 
 void LogicManager::InitLogic()
 {
+	//CreateSingleton();
 	/*LogicManager* instanceLogicManager = LogicManager::GetInstance();
 	LoadTextures();
 	Entity* auxNewEntity = nullptr;
@@ -57,7 +59,7 @@ void LogicManager::ShutdownTextures()
 
 
 
-void LogicManager::LogicSlot(MyTimer& _timerManager)
+void LogicManager::LogicSlot(MyTimerManager& _timerManager)
 {
 	_timerManager.InitSlotsToProcess();
 
@@ -77,6 +79,15 @@ void LogicManager::LogicWorldSlot(const float& _fFixedTick)
 	{
 		entity->Slot(_fFixedTick);
 	}
+
+	
+
+
+
+
+
+
+
 }
 
 
