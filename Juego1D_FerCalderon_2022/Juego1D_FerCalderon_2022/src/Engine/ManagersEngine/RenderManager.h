@@ -60,8 +60,9 @@ public:
 	void RenderSlot(const float& _fps, const float& _elapsed, const float& _currentTime);
 	void ShutdownRender();
 
+	void UpdateGameObjectPosition(Entity& _entityRenderToUpdate);
 
-	void ClearScene()
+	inline void ClearScene()
 	{
 		system("CLS");
 	}

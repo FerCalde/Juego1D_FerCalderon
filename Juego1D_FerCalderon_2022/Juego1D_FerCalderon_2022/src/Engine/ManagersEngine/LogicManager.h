@@ -25,6 +25,8 @@ public:
 	void LogicSlot(MyTimerManager& _timerManager);
 	void LogicWorldSlot(const float& _fFixedTick);
 
+	
+
 };
 
 
