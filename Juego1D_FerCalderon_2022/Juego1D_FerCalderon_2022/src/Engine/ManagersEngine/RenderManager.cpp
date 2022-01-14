@@ -26,6 +26,8 @@ void RenderEngine::ShutdownRender()
 
 void RenderEngine::RenderSlot(const float& _fps,const float& _elapsed,const float& _currentTime)
 {
+
+	
 	//LogicManager* instanceLogicManager = LogicManager::GetInstance();
 	//// Render
 	//glClear(GL_COLOR_BUFFER_BIT);	// Clear color buffer to preset values.

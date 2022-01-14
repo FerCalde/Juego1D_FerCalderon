@@ -8,6 +8,7 @@
 class LogicManager : public ISingleton<LogicManager>
 {
 private:
+	//LogicManager() { }
 	~LogicManager() {}
 	
 
@@ -16,16 +17,13 @@ public:
 
 	std::vector<Entity*> m_entitiesList; // creo el vector de Entidades
 
-
-
 	void InitLogic();
 	void ShutdownLogic();
 	void LoadTextures();
 	void ShutdownTextures();
 
-	void LogicSlot(MyTimer& _timerManager);
+	void LogicSlot(MyTimerManager& _timerManager);
 	void LogicWorldSlot(const float& _fFixedTick);
-
 
 };
 
@@ -63,7 +61,7 @@ public:
 //	void LoadTextures();
 //	void ShutdownTextures();
 //
-//	void LogicSlot(MyTimer& _timerManager);
+//	void LogicSlot(MyTimerManager& _timerManager);
 //	void LogicWorldSlot(const float& _fFixedTick);
 //
 //

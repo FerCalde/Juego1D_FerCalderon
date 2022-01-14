@@ -2,7 +2,7 @@
 //
 
 
-MyTimer::MyTimer()
+MyTimerManager::MyTimerManager()
 {
 	PCFreq = 0.f;
 	performanceCounterStart = 0;
@@ -18,12 +18,12 @@ MyTimer::MyTimer()
 	logicCurrentTime = 0.f;
 }
 
-MyTimer::~MyTimer()
+MyTimerManager::~MyTimerManager()
 {
 
 }
 
-void MyTimer::StartCounter()
+void MyTimerManager::StartCounter()
 {
 	LARGE_INTEGER currentPerformanceCounter;
 	if (!QueryPerformanceFrequency(&currentPerformanceCounter))
@@ -39,34 +39,34 @@ void MyTimer::StartCounter()
 	previousTime = GetTime();
 }
 
-float MyTimer::GetTime()
+float MyTimerManager::GetTime()
 {
 	LARGE_INTEGER currentPerformanceCounter;
 	QueryPerformanceCounter(&currentPerformanceCounter);
 	return float(currentPerformanceCounter.QuadPart - performanceCounterStart) / PCFreq;
 }
 
-inline void MyTimer::AddFPS()
+inline void MyTimerManager::AddFPS()
 {
 	currentCounterFPS++;
 }
 
-float MyTimer::GetFPSRate()
+float MyTimerManager::GetFPSRate()
 {
 	return currentCounterFPS / GetTime();
 }
 
-float MyTimer::GetFixedTick()
+float MyTimerManager::GetFixedTick()
 {
 	return fixedTick;
 }
 
-float MyTimer::GetLogicCurrentTime()
+float MyTimerManager::GetLogicCurrentTime()
 {
 	return logicCurrentTime;
 }
 
-void MyTimer::InitSlotsToProcess()
+void MyTimerManager::InitSlotsToProcess()
 {
 	currentTime = GetTime();
 	elapsedTime += currentTime - previousTime;
@@ -82,12 +82,12 @@ void MyTimer::InitSlotsToProcess()
 	}
 }
 
-bool MyTimer::ProcessSlots()
+bool MyTimerManager::ProcessSlots()
 {
 	return elapsedTime >= fixedTick ? true : false;
 }
 
-void MyTimer::ElapsedFixedTick()
+void MyTimerManager::ElapsedFixedTick()
 {
 	if (elapsedTime >= (1.f / 15.f))
 	{

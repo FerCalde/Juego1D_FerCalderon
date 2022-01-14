@@ -25,7 +25,6 @@ public:
 	vec2 GetNewPos() { return m_pos;}
 };
 
-
 class NewVelMsg : public Message
 {
 private:

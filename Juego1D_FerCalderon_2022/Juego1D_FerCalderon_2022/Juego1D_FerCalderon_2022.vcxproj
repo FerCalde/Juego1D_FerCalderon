@@ -170,6 +170,7 @@
     <ClInclude Include="src\GameAssets\MessageSystem\MyMessageSystem.h" />
     <ClInclude Include="src\Engine\ManagersEngine\ISingleton.h" />
     <ClInclude Include="src\GameAssets\PlayerScripts\PlayerEntity.h" />
+    <ClInclude Include="src\Juego1D_FerCalderon_2022.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
