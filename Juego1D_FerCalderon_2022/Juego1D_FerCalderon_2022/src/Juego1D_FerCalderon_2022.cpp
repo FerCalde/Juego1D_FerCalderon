@@ -11,38 +11,50 @@
 using namespace std;
 
 
-struct myMap
-{
-	const int ROWS = 3;
-	const int COLUMNS = 3;
-
-	char* ptrMyBoard = nullptr;
-
-	myMap() {
-		ptrMyBoard = new char[ROWS];
-		for (int i = 0; i < ROWS; i++)
-		{
-			*(ptrMyBoard + i / sizeof(int)) = '_';
-		}
-	}
-
-	/*char myboard[ROWS][COLUMNS] = { {'O',	'X',	'O'},
-									{'K',	'X',	'X'},
-									{'X',	'O',	'O'},
-	};*/
-};
+//struct myMap
+//{
+//	const int ROWS = 30;
+//	const int COLUMNS = 3;
+//
+//	char* ptrMyBoard = nullptr;
+//
+//	myMap() 
+//	{
+//		InitDefaultMap();
+//	}
+//	myMap(const int _mapSize) : ROWS(_mapSize)
+//	{
+//		InitDefaultMap();
+//	}
+//
+//	void InitDefaultMap()
+//	{
+//		ptrMyBoard = new char[ROWS];
+//		for (int i = 0; i < ROWS; i++)
+//		{
+//			ptrMyBoard[i] = '_';
+//		}
+//		ptrMyBoard[ROWS - 1] = '\0';
+//	}
+//	/*char myboard[ROWS][COLUMNS] = { {'O',	'X',	'O'},
+//									{'K',	'X',	'X'},
+//									{'X',	'O',	'O'},
+//	};*/
+//};
 
 
 int main()
 {
 
-	myMap o_myMap;
+	//myMap* o_myMap = new myMap;
 
 	MyTimerManager* ptrTimerManager = new MyTimerManager();
 	ptrTimerManager->StartCounter();
-	
+
 	LogicManager::CreateSingleton();
 	RenderEngine::CreateSingleton();
+	LogicManager::GetInstance().InitLogic();
+	RenderEngine::GetInstance().InitRender();
 
 	/*LogicManager::GetInstance().InitLogic();
 	RenderEngine::GetInstance().InitRender();*/
@@ -60,25 +72,9 @@ int main()
 		RenderEngine::GetInstance().RenderSlot(ptrTimerManager->GetFPSRate(), ptrTimerManager->GetLogicCurrentTime(), ptrTimerManager->GetTime());
 
 
-
-		for (int i = 0; i < o_myMap.ROWS; ++i)
-		{
-			cout << o_myMap.ptrMyBoard[i];
-			/*for (int j = 0; j < ROWS; ++j)
-			{
-				cout << myboard[i][j];
-			}*/
-
-			cout << endl;
-		}
-
-
-
-
-
-		/*ptrLogicManager->LogicSlot(*ptrTimerManager);
-
-		ptrRenderManager->RenderSlot(ptrTimerManager->GetFPSRate(), ptrTimerManager->GetLogicCurrentTime(), ptrTimerManager->GetTime());*/
+		/*string mapString (o_myMap->ptrMyBoard);
+		cout << mapString <<"\n";*/
+	
 	}
 
 	// End app.

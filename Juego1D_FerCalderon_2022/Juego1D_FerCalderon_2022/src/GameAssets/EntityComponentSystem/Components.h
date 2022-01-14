@@ -60,18 +60,19 @@ public:
 
 class CMP_Render : public Component
 {
-private:
-	//GLuint m_gfx = 0;
 
 public:
-	CMP_Render() {}
+	CMP_Render() : m_symbolObject('8') {  }
+	CMP_Render(const char _symbol) :m_symbolObject(_symbol) {  }
 	virtual ~CMP_Render() {}
 
-	//void SetGfxSprite(const GLuint& _gfxSprite);
-	//GLuint GetGfxSprite() { return m_gfx; }
+	void SetSymbol(char _objectSymbol);
+	char GetSymbol() const;
 
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override {};
 	virtual void RecibirMsg(Message* _msgType) override {};
 
+private:
+	char m_symbolObject;
 };
