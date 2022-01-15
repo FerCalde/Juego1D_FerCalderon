@@ -31,7 +31,7 @@ int main()
 	// Cambiar color texto! (GAME OVER)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, 12);
-	std::cout << "END GAME!\n";
+	std::cout << "\n\nEND GAME!\n";
 
 	RenderEngine::GetInstance().ShutdownRender();
 	LogicManager::GetInstance().ShutdownLogic();
