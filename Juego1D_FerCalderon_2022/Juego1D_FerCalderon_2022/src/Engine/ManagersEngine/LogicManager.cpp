@@ -134,16 +134,20 @@ void LogicManager::LogicSlot(MyTimerManager& _timerManager)
 
 void LogicManager::LogicWorldSlot(const float& _fFixedTick)
 {
-	SpawnEnemy(_fFixedTick);
+	RenderEngine::GetInstance().GetMap()->SetCleanMap(); //Seteo el mapa limpio para reiniciar las posiciones que eran ocupadas por entidades
 
-		RenderEngine::GetInstance().GetMap()->SetCleanMap(); //Seteo el mapa limpio para reiniciar las posiciones que eran ocupadas por entidades
 	for (auto& entity : m_entitiesList)
 	{
-		entity->Slot(_fFixedTick);
+		if (entity->IsActive())
+		{
+			entity->Slot(_fFixedTick);
 
-		UpdateMapEntityPositions(entity); //Comunicacion LogicEntityPosition con RenderMap
+			UpdateMapEntityPositions(entity); //Comunicacion LogicEntityPosition con RenderMap
+		}
+
 	}
 
+	SpawnEnemy(_fFixedTick);
 
 
 }
@@ -171,7 +175,7 @@ void LogicManager::UpdateMapEntityPositions(Entity*& currentEntity)
 	//Forma posiblemente mas segura, crear auxiliar char[] para no sobreescribir las variables de otros scripts. Llamar a funcion de 
 	// RenderEngine::UpdateMapPositions.
 	//RenderEngine::GetInstance().ClearScene(); //Limpio pantalla (?)
-	
+
 
 
 	if (currentEntity->IsActive()) //En caso de estar activado
@@ -185,7 +189,7 @@ void LogicManager::UpdateMapEntityPositions(Entity*& currentEntity)
 
 			int auxEntityPos = currentEntity->FindComponent<CMP_Transform>()->GetPos().x; //La posicion del entity guardado para sobreescribir su index en el mapa
 			RenderEngine::GetInstance().GetMap()->ptrMyBoard[auxEntityPos] = currentEntity->FindComponent<CMP_Render>()->GetSymbol(); //Cargo el simbolo de la entidad en la posicion que tenga en el mundo
-			
+
 		}
 	}
 

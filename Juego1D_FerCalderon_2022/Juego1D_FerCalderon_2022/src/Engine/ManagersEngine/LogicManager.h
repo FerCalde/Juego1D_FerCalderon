@@ -24,7 +24,7 @@ public:
 
 	//Spawn Variables
 	float m_TimeSpawn = 0.f;
-	float m_TimeSpawn_MAX = 2.f; //2Segundos,  lo calculo por segun los frames que pasan (60fps)
+	float m_TimeSpawn_MAX = 1.f; //2Segundos,  lo calculo por segun los frames que pasan (60fps)
 
 	void InitGameObjects();
 	void InitLogic();
