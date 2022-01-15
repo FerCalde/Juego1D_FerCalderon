@@ -135,13 +135,12 @@ void LogicManager::LogicWorldSlot(const float& _fFixedTick)
 
 	}
 
-	SpawnEnemy(_fFixedTick);
+	//SpawnEnemy(_fFixedTick);
 
 }
 
 void LogicManager::UpdateMapEntityPositions(Entity*& currentEntity)
 {
-
 	if (currentEntity->IsActive()) //En caso de estar activado
 	{
 		if (currentEntity->FindComponent<CMP_Render>() != NULL) //En caso de tener un componente Render

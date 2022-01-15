@@ -1,6 +1,5 @@
 #include "Components.h"
 
-
 #pragma region CMP_Collider
 
 CMP_Collider::CMP_Collider()
@@ -56,7 +55,6 @@ bool CMP_Collider::IsColliding(Entity* _otherEntity)
 
 void CMP_Collider::Slot(const float& _elapsed)
 {
-
 	for (auto& _otherEntity : LogicManager::GetInstance().m_entitiesList)
 	{
 		if (IsColliding(_otherEntity))
@@ -72,8 +70,11 @@ void CMP_Collider::Slot(const float& _elapsed)
 		}
 
 	}
-
-	m_CmpOwner->SendMsg(ptrLimitCollisionMsg);
+	// Player y Bullets comprueban si se han salido del mapa
+	if ( m_CmpOwner->HasTag(Entity::ETagEntity::Bullet))
+	{
+		m_CmpOwner->SendMsg(ptrLimitCollisionMsg);
+	}
 }
 
 void CMP_Collider::RecibirMsg(Message* _msgType)
@@ -83,6 +84,7 @@ void CMP_Collider::RecibirMsg(Message* _msgType)
 	{
 		if (collisionMsg->GetCollision())
 		{
+			//Resolver Colisiones Individuales
 			if (m_CmpOwner->HasTag(Entity::ETagEntity::Enemy))
 			{
 				LogicManager::GetInstance().m_GameManager->AddEnemyDead();
@@ -91,62 +93,21 @@ void CMP_Collider::RecibirMsg(Message* _msgType)
 			{
 				LogicManager::GetInstance().m_GameManager->UpdatePlayerLife(false);
 			}
-			
+			//En cualquier caso, desactivar el Entity.
 			m_CmpOwner->DesactivateEntity();
-			
-				//EntCollisionMsg* auxEntColMsg = new EntCollisionMsg();
-			//m_CmpOwner->SendMsg(auxEntColMsg);
-
-			////Optimizacion
-			//delete auxEntColMsg;
-			//auxEntColMsg = nullptr;
-
 		}
-		//else
-		//{
-		//	NewPosMsg* auxPosMsg = new NewPosMsg(GetPos());
-		//	m_CmpOwner->SendMsg(auxPosMsg);
-		//	
-		//	//Optimizacion
-		//	delete auxPosMsg;
-		//	auxPosMsg = nullptr;
-		//}
 	}
 
-	//EntCollisionMsg* auxEntColMsg = dynamic_cast<EntCollisionMsg*>(_msgType);
-	//if (auxEntColMsg)
-	//{
-	//	NewVelMsg* auxVelMsg = new NewVelMsg();
-	//	m_CmpOwner->SendMsg(auxVelMsg);
-
-
-	//	//Optimizacion
-	//	delete auxVelMsg;
-	//	auxVelMsg = nullptr;
-	//}
-
-	//LimitWorldCollMsg* auxLimitCollMsg = dynamic_cast<LimitWorldCollMsg*>(_msgType);
-	//if (auxLimitCollMsg)
-	//{
-	//	if ((GetPos().x > auxLimitCollMsg->GetLimitWidth()) || (GetPos().x < 0))
-	//	{
-	//		NewVelMsg* auxVelMsg = new NewVelMsg();
-	//		m_CmpOwner->SendMsg(auxVelMsg);
-
-	//		//Optimizacion
-	//		delete auxVelMsg;
-	//		auxVelMsg = nullptr;
-	//	}
-	//	if ((GetPos().y > auxLimitCollMsg->GetLimitHeight()) || (GetPos().y < 0))
-	//	{
-	//		NewVelMsg* auxVelMsg = new NewVelMsg();
-	//		m_CmpOwner->SendMsg(auxVelMsg);
-
-	//		//Optimizacion
-	//		delete auxVelMsg;
-	//		auxVelMsg = nullptr;
-	//	}
-	//}
+	LimitWorldCollMsg* auxLimitCollMsg = dynamic_cast<LimitWorldCollMsg*>(_msgType);
+	if (auxLimitCollMsg)
+	{
+		if ((GetPos().x > RenderEngine::GetInstance().WEIGHT_MAP-1.f) || (GetPos().x < 0))
+		{
+			m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(0);
+				m_CmpOwner->DesactivateEntity();
+		}
+		
+	}
 }
 #pragma endregion
 
@@ -162,11 +123,27 @@ void CMP_InputController::InputMovement()
 {
 	if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_A))
 	{
-		m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(-1);
+		if (m_CmpOwner->FindComponent<CMP_Transform>()->GetPos().x > 0)
+		{
+			m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(-1);
+		}
+		else 
+		{
+			m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(0);
+
+		}
 	}
 	else if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_D))
 	{
-		m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(1);
+		if (m_CmpOwner->FindComponent<CMP_Transform>()->GetPos().x < RenderEngine::GetInstance().WEIGHT_MAP-3.f)
+		{
+			m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(1);
+		}
+		else
+		{
+			m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(0);
+
+		}
 	}
 	else
 	{
@@ -244,7 +221,7 @@ void CMP_Shooter::SpawnBullet(const int& movDir)
 
 				auxFirePoint.x = m_CmpOwner->FindComponent<CMP_Transform>()->GetPos().x + movDir;
 				currentEntity->FindComponent<CMP_Transform>()->SetPos(auxFirePoint);
-				
+
 				vec2 auxVelInit(m_CmpOwner->FindComponent<CMP_Transform>()->GetVelInit());
 				currentEntity->FindComponent<CMP_Transform>()->SetVel(auxVelInit);
 
@@ -260,6 +237,7 @@ void CMP_Shooter::SpawnBullet(const int& movDir)
 #pragma endregion
 
 #pragma region CMP_Transform
+
 CMP_Transform::CMP_Transform()
 {
 	ptrNewPosMsg = new NewPosMsg(GetPos());
