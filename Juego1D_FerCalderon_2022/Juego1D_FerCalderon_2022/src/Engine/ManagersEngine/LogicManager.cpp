@@ -168,11 +168,12 @@ void LogicManager::SpawnEnemy(const float& _fFixedTick)
 	m_TimeSpawn += _fFixedTick;
 	if (m_TimeSpawn >= m_TimeSpawn_MAX)
 	{
+		
 		if (m_TimeSpawn_MAX > 0)
 		{
-			m_TimeSpawn -= _fFixedTick;
+			float auxFixed = _fFixedTick * 2.f;
+			m_TimeSpawn_MAX -= auxFixed;
 		}
-		
 		
 		//PUEDO CAMBIAR ESTE CODIGO POR LA FUNC FINDGAMEOBJECTOFTAG
 		for (size_t i = 0; i < LogicManager::GetInstance().m_entitiesList.size(); i++)
@@ -180,7 +181,8 @@ void LogicManager::SpawnEnemy(const float& _fFixedTick)
 			if (LogicManager::GetInstance().m_entitiesList[i]->HasTag(Entity::ETagEntity::Enemy))
 			{
 				//AUMENTO LA VELOCIDAD DE LAS ENTIDADES 
-				float auxSpeedAument = LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->GetVel().x + _fFixedTick*125.f;
+				float auxFixed = _fFixedTick * 75.f;
+				float auxSpeedAument = LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->GetVel().x + auxFixed;
 				LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->SetVelInit(auxSpeedAument);
 				
 				if (!LogicManager::GetInstance().m_entitiesList[i]->IsActive())

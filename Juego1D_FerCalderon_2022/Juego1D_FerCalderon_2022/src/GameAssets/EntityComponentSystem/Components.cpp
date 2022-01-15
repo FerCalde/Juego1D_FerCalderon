@@ -174,12 +174,12 @@ void CMP_Shooter::Slot(const float& _elapsed)
 	{
 		// Comprobar si se ha pulsado alguna tecla asignada al disparo
 		int auxFireDirection = 0;
-		if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_J))
+		if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_H))
 		{
 			auxFireDirection = -1;
 			//std::cout << "Left FIRE!\n";
 		}
-		else if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_L))
+		else if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_K))
 		{
 			auxFireDirection = 1;
 			//std::cout << "RIGHT FIRE!\n";
