@@ -9,6 +9,22 @@
 #include"RenderManager.h"
 #include "TimerManager.h"
 
+struct CGameManagerInfo
+{
+	CGameManagerInfo() { iEnemiesDead = 0; }
+	~CGameManagerInfo(){}
+	
+	bool isPlayerAlive = true;
+	void UpdatePlayerLife(bool _isAlive)
+	{
+		isPlayerAlive = _isAlive;
+	}
+
+	int iEnemiesDead = 0;
+	void AddEnemyDead() { iEnemiesDead++; }
+	int GetEnemiesDead() { return iEnemiesDead; }
+};
+
 class LogicManager : public ISingleton<LogicManager>
 {
 private:
@@ -16,7 +32,7 @@ private:
 	~LogicManager() {}
 	
 public:
-
+	CGameManagerInfo* m_GameManager = nullptr;
 	int MAX_BULLETS = 5;
 	int MAX_ENEMIES = 10;
 	std::vector<Entity*> m_entitiesList; // creo el vector de Entidades
@@ -35,52 +51,19 @@ public:
 	void SpawnEnemy(const float& _fFixedTick);
 	Entity* FindGameObjectOfTag(Entity::ETagEntity _tagFinder);
 	void UpdateMapEntityPositions(Entity*& currentEntity);
+	
+	/*void UpdatePlayerLife(bool _isAlive)
+	{
+		m_GameManager->isPlayerAlive = _isAlive;
+	}*/
 
 	void ShutdownLogic();
 	
-
 };
 
 
 
 
-
-
-
-
-
-//class LogicManager
-//{
-//public:
-//	static LogicManager* GetInstance()
-//	{
-//		if (m_instance == nullptr)
-//		{
-//			m_instance = new LogicManager;
-//		}
-//		return m_instance;
-//	}
-//
-//	LogicManager() {}
-//	static LogicManager* m_instance;
-//
-//
-//public:
-//
-//	std::vector<Entity*> m_entitiesList; // creo el vector de Entidades
-//
-//
-//
-//	void InitLogic();
-//	void ShutdownLogic();
-//	void LoadTextures();
-//	void ShutdownTextures();
-//
-//	void LogicSlot(MyTimerManager& _timerManager);
-//	void LogicWorldSlot(const float& _fFixedTick);
-//
-//
-//};
 
 
 

@@ -11,9 +11,11 @@ class CMP_Transform;
 class Player : public Entity
 {
 public:
-	Player() {
+	Player() 
+	{
+		SetAlive(true);
 		SetTag(Entity::ETagEntity::Player);
-		
+		m_eTagIgnore = Entity::ETagEntity::Bullet;
 		/*Component* auxT = new CMP_Transform;
 		AddComponent(auxT);
 
@@ -32,6 +34,11 @@ public:
 		FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 		ActivateEntity();
 
-		auxT = nullptr;*/}
+		auxT = nullptr;*/
+	}
 	~Player() {}
+
+	bool isAlive = true;
+	void SetAlive(bool _isAlive) { isAlive = _isAlive; }
+	bool GetIsAlive() { return isAlive; }
 };
