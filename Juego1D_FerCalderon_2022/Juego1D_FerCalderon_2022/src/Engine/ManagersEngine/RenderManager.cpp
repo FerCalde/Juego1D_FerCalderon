@@ -22,7 +22,7 @@ void RenderEngine::RenderSlot(const float& _fps, const float& _elapsed, const fl
 	ClearScene(); //Limpio la pantalla antes de pintar
 
 	std::string mapString(RenderEngine::GetInstance().GetMap()->ptrMyBoard); //Cargo el mapa en una string
-	std::cout << mapString << "\n" ;
+	std::cout << mapString << "\tSCORE: " << LogicManager::GetInstance().m_GameManager->GetEnemiesDead()<< "\n";
 
 	
 }

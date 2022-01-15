@@ -135,7 +135,7 @@ void LogicManager::LogicWorldSlot(const float& _fFixedTick)
 
 	}
 
-	//SpawnEnemy(_fFixedTick);
+	SpawnEnemy(_fFixedTick);
 
 }
 
