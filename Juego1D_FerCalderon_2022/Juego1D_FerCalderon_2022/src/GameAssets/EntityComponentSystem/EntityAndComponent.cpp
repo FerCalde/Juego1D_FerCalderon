@@ -12,9 +12,12 @@ Entity::~Entity()
 
 void Entity::Slot(float _elapsed)
 {
-	for (auto& cmp : m_ComponentList)
+	if (IsActive())
 	{
-		cmp->Slot(_elapsed);
+		for (auto& cmp : m_ComponentList)
+		{
+			cmp->Slot(_elapsed);
+		}
 	}
 }
 
@@ -26,8 +29,11 @@ void Entity::AddComponent(Component* _componentAdded)
 
 void Entity::SendMsg(Message* _msgType)
 {
-	for (auto& cmp : m_ComponentList)
+	if (IsActive())
 	{
-		cmp->RecibirMsg(_msgType);
+		for (auto& cmp : m_ComponentList)
+		{
+			cmp->RecibirMsg(_msgType);
+		}
 	}
 }

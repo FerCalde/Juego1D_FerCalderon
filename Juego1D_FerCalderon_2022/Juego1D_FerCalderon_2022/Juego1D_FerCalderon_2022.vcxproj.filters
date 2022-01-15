@@ -60,6 +60,12 @@
     <ClCompile Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameAssets\PlayerScripts\Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\ManagersEngine\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\ManagersEngine\ISingleton.h">
@@ -96,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Juego1D_FerCalderon_2022.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameAssets\PlayerScripts\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\ManagersEngine\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -56,6 +56,16 @@ CMP_Collider::~CMP_Collider()
 
 bool CMP_Collider::IsColliding(Entity* _otherEntity)
 {
+
+	//if (this->m_CmpOwner != _otherEntity)
+	//{
+	//	if (vlen2(GetPos() - LogicManager::GetInstance()->m_entitiesList[_otherEntity->GetID()]->FindComponent<CMP_Transform>()->GetPos()) <= dist)
+	//	{
+	//		return true;
+	//	}
+	//}
+
+
 	/*LogicManager::GetInstance();
 
 	float dist = (GetRadius() + LogicManager::GetInstance()->m_entitiesList[_otherEntity->GetID()]->FindComponent<CMP_Collider>()->GetRadius())
@@ -175,4 +185,65 @@ void CMP_Render::SetSymbol(char _objectSymbol)
 char CMP_Render::GetSymbol() const
 {
 	return m_symbolObject;
+}
+
+
+
+
+
+
+
+void CMP_InputController::Slot(const float& _elapsed)
+{
+	CheckInput();
+}
+
+void CMP_InputController::CheckInput()
+{
+	if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_A))
+	{
+		m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(-1);
+	}
+	else if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_D))
+	{
+		m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(1);
+	}
+	else
+	{
+		m_CmpOwner->FindComponent<CMP_Transform>()->SetMoveDir(0);
+	}
+}
+
+void CMP_Shooter::Slot(const float& _elapsed)
+{
+	// Chequear si ha pasado el tiempo entre disparos
+	if (true)//)m_fTimeUntilNextAttack == 0.f)
+	{
+		// Comprobar si se ha pulsado alguna tecla asignada al disparo
+		int iDirection = 0;
+		if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_J))
+		{
+			iDirection = -1;
+		}
+		else if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_L))
+		{
+			iDirection = 1;
+		}
+		// En caso de detectar input, spawnear bala
+		if (iDirection != 0)
+		{
+			//SpawnBullet(iDirection);
+			// Una vez spawneada, cambiar variable contador para empezar la cuenta atras
+			//m_fTimeUntilNextAttack = m_fTimeBetweenAttacks;
+		}
+	}
+	else
+	{
+		// Cuenta atras
+		/*m_fTimeUntilNextAttack -= _elapsed;
+		if (m_fTimeUntilNextAttack < 0.f)
+			m_fTimeUntilNextAttack = 0.f;*/
+	}
+
+
 }

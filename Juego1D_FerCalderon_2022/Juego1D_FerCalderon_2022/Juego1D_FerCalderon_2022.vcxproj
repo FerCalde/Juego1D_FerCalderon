@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\ManagersEngine\InputManager.cpp" />
     <ClCompile Include="src\Engine\ManagersEngine\LogicManager.cpp" />
     <ClCompile Include="src\Engine\ManagersEngine\RenderManager.cpp" />
     <ClCompile Include="src\Engine\ManagersEngine\TimerManager.cpp" />
@@ -155,10 +156,12 @@
     <ClCompile Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.cpp" />
     <ClCompile Include="src\GameAssets\EntityComponentSystem\EntityAndComponent.cpp" />
     <ClCompile Include="src\GameAssets\MessageSystem\MyMessageSystem.cpp" />
+    <ClCompile Include="src\GameAssets\PlayerScripts\Bullet.cpp" />
     <ClCompile Include="src\GameAssets\PlayerScripts\PlayerEntity.cpp" />
     <ClCompile Include="src\Juego1D_FerCalderon_2022.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\ManagersEngine\InputManager.h" />
     <ClInclude Include="src\Engine\ManagersEngine\LogicManager.h" />
     <ClInclude Include="src\Engine\miscellaneous\vector2d.h" />
     <ClInclude Include="src\Engine\ManagersEngine\RenderManager.h" />
@@ -169,6 +172,7 @@
     <ClInclude Include="src\GameAssets\EntityComponentSystem\EntityAndComponent.h" />
     <ClInclude Include="src\GameAssets\MessageSystem\MyMessageSystem.h" />
     <ClInclude Include="src\Engine\ManagersEngine\ISingleton.h" />
+    <ClInclude Include="src\GameAssets\PlayerScripts\Bullet.h" />
     <ClInclude Include="src\GameAssets\PlayerScripts\PlayerEntity.h" />
     <ClInclude Include="src\Juego1D_FerCalderon_2022.h" />
   </ItemGroup>

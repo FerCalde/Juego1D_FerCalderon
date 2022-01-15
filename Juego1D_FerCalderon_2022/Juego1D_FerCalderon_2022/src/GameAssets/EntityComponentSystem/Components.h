@@ -1,8 +1,10 @@
 #pragma once
 #include "EntityAndComponent.h"
 #include "..\MessageSystem\MyMessageSystem.h"
-#include "..\..\Engine\ManagersEngine\TimerManager.h"
+#include "..\PlayerScripts\PlayerEntity.h"
+#include "..\..\Engine\ManagersEngine\InputManager.h"
 #include "..\..\Engine\ManagersEngine\LogicManager.h"
+#include "..\..\Engine\ManagersEngine\TimerManager.h"
 #include "..\..\Engine\miscellaneous\vector2d.h"
 
 
@@ -12,21 +14,25 @@ class CMP_Transform : public Component
 private:
 	vec2 m_vel;
 	vec2 m_pos;
+	int m_moveDirection = 0;
+
 	NewPosMsg* ptrNewPosMsg;
 
 public:
 	CMP_Transform();
 	virtual ~CMP_Transform();
 
+	void SetMoveDir(const int& _moveDir) { m_moveDirection = _moveDir; }
 	void SetPos(const float& _posX) { m_pos.x = _posX; }
 	void SetPos(const vec2& _pos) { m_pos = _pos; }
 	void SetVel(const vec2& _vel) { m_vel = _vel; }
 
+	int GetMoveDir() { return m_moveDirection; }
 	vec2& GetPos() { return m_pos; }
 	vec2& GetVel() { return m_vel; }
 
-	void UpdatePosition(const float& _elapsed) { m_pos += m_vel * _elapsed;}
-	
+	void UpdatePosition(const float& _elapsed) { m_pos += m_vel * _elapsed * GetMoveDir(); }
+
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override;
 	virtual void RecibirMsg(Message* _msgType) override;
@@ -40,7 +46,7 @@ private:
 	LimitWorldCollMsg* ptrLimitCollisionMsg;
 
 public:
-	
+
 	float radius = 0;
 	CMP_Collider();
 	virtual ~CMP_Collider();
@@ -52,11 +58,11 @@ public:
 	vec2& GetVel() { return m_CmpOwner->FindComponent<CMP_Transform>()->GetVel(); }
 
 	bool IsColliding(Entity* _otherEntity);
-	
+
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override;
 	virtual void RecibirMsg(Message* _msgType) override;
-	
+
 };
 
 class CMP_Render : public Component
@@ -76,4 +82,31 @@ public:
 
 private:
 	char m_symbolObject;
+};
+
+class CMP_InputController :public Component
+{
+public:
+	CMP_InputController() {}
+	virtual ~CMP_InputController() {}
+
+	void CheckInput();
+
+
+
+	// Interfaz
+	virtual void Slot(const float& _elapsed) override;
+	virtual void RecibirMsg(Message* _msgType) override {};
+};
+
+class CMP_Shooter : public Component
+{
+public:
+	CMP_Shooter() {}
+	virtual ~CMP_Shooter() {}
+
+
+	// Interfaz
+	virtual void Slot(const float& _elapsed) override;
+	virtual void RecibirMsg(Message* _msgType) override {};
 };
