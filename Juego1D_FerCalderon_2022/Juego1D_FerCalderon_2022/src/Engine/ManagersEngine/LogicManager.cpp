@@ -1,5 +1,5 @@
-#include "LogicManager.h"
 #include "..\..\Juego1D_FerCalderon_2022.h"
+#include "LogicManager.h"
 
 //Forward Declaration de m_instance 
 //LogicManager* LogicManager::m_instance = nullptr;
@@ -31,8 +31,9 @@ void LogicManager::InitGameObjects()
 
 	Entity* auxNewEntity = nullptr;
 
+#pragma region CREATE PLAYER
 	//INIT PLAYER ENTITY
-	auxNewEntity=new Player();
+	auxNewEntity = new Player();
 	auxNewEntity->SetID(iEntityID);
 
 	auxNewEntity->AddComponent(new CMP_Transform);//SIEMPRE LO PRIMERO!
@@ -40,13 +41,11 @@ void LogicManager::InitGameObjects()
 	auxNewEntity->AddComponent(new CMP_InputController);
 	auxNewEntity->AddComponent(new CMP_Render);
 	auxNewEntity->AddComponent(new CMP_Shooter);
-		//Set Initial Vars
-	float auxVel = 10;
-	float auxPos = 15;
+	//Set Initial Vars
+	float auxPos = RenderEngine::GetInstance().WEIGHT_MAP * 0.5f;
 	char auxSymbol = 'X';
 
 	auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
-	auxNewEntity->FindComponent<CMP_Transform>()->SetVelInit(auxVel);
 	auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 	auxNewEntity->SetTag(Entity::ETagEntity::Player);
 
@@ -54,6 +53,9 @@ void LogicManager::InitGameObjects()
 
 	m_entitiesList.push_back(auxNewEntity);
 	iEntityID++;
+#pragma endregion
+
+#pragma region CREATE ENEMIES
 
 	//INIT ENEMIES ENTITIES
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -63,13 +65,8 @@ void LogicManager::InitGameObjects()
 		auxNewEntity->AddComponent(new CMP_Collider);
 		auxNewEntity->AddComponent(new CMP_Render);
 		//Set Initial Vars
-		auxVel = 10;
-		auxPos = 0;
 		auxSymbol = '*';
 
-		auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
-		auxNewEntity->FindComponent<CMP_Transform>()->SetMoveDir(1);
-		auxNewEntity->FindComponent<CMP_Transform>()->SetVelInit(auxVel);
 		auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 		auxNewEntity->SetID(iEntityID);
 		auxNewEntity->SetTag(Entity::ETagEntity::Enemy);
@@ -81,6 +78,9 @@ void LogicManager::InitGameObjects()
 
 	}
 
+#pragma endregion
+
+#pragma region CREATE BULLETS
 	//INIT BULLETS ENTITIES
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
@@ -89,13 +89,6 @@ void LogicManager::InitGameObjects()
 		auxNewEntity->AddComponent(new CMP_Collider);
 		auxNewEntity->AddComponent(new CMP_Render);
 
-		auxVel = 10;
-		auxPos = 0;
-		auxSymbol = '8';
-
-		auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
-		auxNewEntity->FindComponent<CMP_Transform>()->SetVelInit(auxVel);
-		auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 		auxNewEntity->SetID(iEntityID);
 		auxNewEntity->SetTag(Entity::ETagEntity::Bullet);
 		auxNewEntity->DesactivateEntity();
@@ -103,7 +96,7 @@ void LogicManager::InitGameObjects()
 		m_entitiesList.push_back(auxNewEntity);
 		iEntityID++;
 	}
-
+#pragma endregion
 }
 
 void LogicManager::LogicSlot(MyTimerManager& _timerManager)
@@ -175,27 +168,56 @@ void LogicManager::SpawnEnemy(const float& _fFixedTick)
 	m_TimeSpawn += _fFixedTick;
 	if (m_TimeSpawn >= m_TimeSpawn_MAX)
 	{
+		if (m_TimeSpawn_MAX > 0)
+		{
+			m_TimeSpawn -= _fFixedTick;
+		}
+		
+		
 		//PUEDO CAMBIAR ESTE CODIGO POR LA FUNC FINDGAMEOBJECTOFTAG
 		for (size_t i = 0; i < LogicManager::GetInstance().m_entitiesList.size(); i++)
 		{
-			if (!LogicManager::GetInstance().m_entitiesList[i]->IsActive())
+			if (LogicManager::GetInstance().m_entitiesList[i]->HasTag(Entity::ETagEntity::Enemy))
 			{
-				if (LogicManager::GetInstance().m_entitiesList[i]->HasTag(Entity::ETagEntity::Enemy))
+				//AUMENTO LA VELOCIDAD DE LAS ENTIDADES 
+				float auxSpeedAument = LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->GetVel().x + _fFixedTick*125.f;
+				LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->SetVelInit(auxSpeedAument);
+				
+				if (!LogicManager::GetInstance().m_entitiesList[i]->IsActive())
 				{
-
-					LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->SetPos(0);
-					LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->SetMoveDir(1);
-
-					vec2 auxVel = LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->GetVelInit();
-					LogicManager::GetInstance().m_entitiesList[i]->FindComponent<CMP_Transform>()->SetVel(auxVel);
+					RandomEnemySide(LogicManager::GetInstance().m_entitiesList[i]);
 
 
-					LogicManager::GetInstance().m_entitiesList[i]->ActivateEntity();
 					break;
 				}
 			}
 		}
 
+		
 		m_TimeSpawn = 0;
 	}
+}
+
+void LogicManager::RandomEnemySide(Entity* _currentEnemyToSpawn)
+{
+
+	float auxRandomPos = rand() % 100; //Spawn aleatorio
+	if (auxRandomPos < 50) //Lado izquierdo
+	{
+		_currentEnemyToSpawn->FindComponent<CMP_Transform>()->SetPos(0);
+		_currentEnemyToSpawn->FindComponent<CMP_Transform>()->SetMoveDir(1);
+
+	}
+	else //Lado derecho
+	{
+		_currentEnemyToSpawn->FindComponent<CMP_Transform>()->SetPos(RenderEngine::GetInstance().WEIGHT_MAP);
+		_currentEnemyToSpawn->FindComponent<CMP_Transform>()->SetMoveDir(-1);
+	}
+
+	vec2 auxVel = _currentEnemyToSpawn->FindComponent<CMP_Transform>()->GetVelInit();
+	_currentEnemyToSpawn->FindComponent<CMP_Transform>()->SetVel(auxVel);
+
+
+	_currentEnemyToSpawn->ActivateEntity();
+
 }

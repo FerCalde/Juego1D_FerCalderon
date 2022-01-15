@@ -15,7 +15,7 @@ private:
 	vec2 m_vel;
 	vec2 m_pos;
 	int m_moveDirection = 0;
-	vec2 m_velInit;
+	vec2 m_velInit=(10,0);
 
 	NewPosMsg* ptrNewPosMsg;
 

@@ -241,6 +241,7 @@ void CMP_Shooter::SpawnBullet(const int& movDir)
 CMP_Transform::CMP_Transform()
 {
 	ptrNewPosMsg = new NewPosMsg(GetPos());
+	SetVelInit(10);
 }
 
 CMP_Transform::~CMP_Transform()

@@ -1,12 +1,20 @@
 #pragma once
 
-#include "..\EntityComponentSystem\EntityAndComponent.h"
 #include"..\EntityComponentSystem\Components.h"
+#include "..\EntityComponentSystem\EntityAndComponent.h"
 
 
-class CMP_Collider;
-class CMP_Render;
-class CMP_Transform;
+
+
+
+/// <summary>
+/// ///////
+/// </summary>
+
+//class Component;
+//class CMP_Collider;
+//class CMP_Render;
+//class CMP_Transform;
 
 class Player : public Entity
 {
@@ -16,6 +24,7 @@ public:
 		SetAlive(true);
 		SetTag(Entity::ETagEntity::Player);
 		m_eTagIgnore = Entity::ETagEntity::Bullet;
+
 		/*Component* auxT = new CMP_Transform;
 		AddComponent(auxT);
 
@@ -25,12 +34,10 @@ public:
 		auxT = new CMP_Render;
 		AddComponent(auxT);
 
-		float auxVel = 10;
-		float auxPos = 15;
+		float auxPos = RenderEngine::GetInstance().WEIGHT_MAP * 0.5f;
 		char auxSymbol = 'X';
 
 		FindComponent<CMP_Transform>()->SetPos(auxPos);
-		FindComponent<CMP_Transform>()->SetVel(auxVel);
 		FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 		ActivateEntity();
 
