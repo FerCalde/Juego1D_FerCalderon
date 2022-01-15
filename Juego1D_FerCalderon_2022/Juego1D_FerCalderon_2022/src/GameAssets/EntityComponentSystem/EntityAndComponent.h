@@ -8,7 +8,9 @@ class Message;
 
 class Component
 {
-protected: 
+
+
+protected:
 	Entity* m_CmpOwner;
 
 private:
@@ -18,8 +20,12 @@ public:
 	Component() { m_CmpOwner = nullptr; }
 	virtual ~Component() { }
 
+
 	virtual void Slot(const float& _elapsed) = 0;
 	virtual void RecibirMsg(Message* _msgType) = 0;
+
+
+
 
 };
 
@@ -40,7 +46,7 @@ public:
 	void Slot(float _elapsed);
 	void AddComponent(Component* _componentAdded);
 	void SendMsg(Message* _msgType);
-	
+
 	void SetActive(bool _isActive) { isActive = _isActive; }
 	void ActivateEntity() { isActive = true; }
 	void DesactivateEntity() { isActive = false; }
@@ -60,5 +66,17 @@ public:
 
 protected:
 	bool isActive = false;
+public:
+	enum class ETagEntity
+	{
+		Invalid = -1,
+		Player, Enemy, Bullet
+	};
 
+	ETagEntity GetTag() const { return m_eTag; }
+	bool HasTag(ETagEntity _eTag) const { return m_eTag == _eTag; }
+	void SetTag(const ETagEntity& _eTag) { m_eTag = _eTag; }
+private:
+	ETagEntity m_eTag;
+	ETagEntity m_eTagIgnore;
 };

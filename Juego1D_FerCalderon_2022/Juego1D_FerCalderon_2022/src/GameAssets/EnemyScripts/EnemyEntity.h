@@ -7,6 +7,8 @@ class CEnemy : public Entity
 public:
 	CEnemy()
 	{
+		SetTag(Entity::ETagEntity::Enemy);
+
 		/*Component* auxT = new CMP_Transform;
 		AddComponent(auxT);
 

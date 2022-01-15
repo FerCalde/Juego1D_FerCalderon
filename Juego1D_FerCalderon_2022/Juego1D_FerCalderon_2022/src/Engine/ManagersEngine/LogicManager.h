@@ -33,7 +33,7 @@ public:
 	void LogicWorldSlot(const float& _fFixedTick);
 
 	void SpawnEnemy(const float& _fFixedTick);
-
+	Entity* FindGameObjectOfTag(Entity::ETagEntity _tagFinder);
 	void UpdateMapEntityPositions(Entity*& currentEntity);
 
 	void ShutdownLogic();
