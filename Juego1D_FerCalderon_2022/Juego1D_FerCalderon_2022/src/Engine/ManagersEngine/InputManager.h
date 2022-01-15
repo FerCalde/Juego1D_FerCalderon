@@ -2,10 +2,10 @@
 #include "ISingleton.h"
 #include <Windows.h>
 
-#define KEYBOARD_J 'J'
-#define KEYBOARD_L 'L'
-#define KEYBOARD_A 'A'
-#define KEYBOARD_D 'D'
+#define KEYBOARD_H 'H' //FIRE LEFT
+#define KEYBOARD_K 'K' //FIRE RIGHT
+#define KEYBOARD_A 'A' //MOVE LEFT
+#define KEYBOARD_D 'D' //MOVE RIGHT
 
 typedef unsigned char Key;
 
