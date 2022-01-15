@@ -16,16 +16,16 @@ CMP_Transform::~CMP_Transform()
 
 void CMP_Transform::Slot(const float& _elapsed)
 {
-	UpdatePosition(_elapsed); 
-	ptrNewPosMsg->SetNewPos(GetPos()); 
-	m_CmpOwner->SendMsg(ptrNewPosMsg); 
+	UpdatePosition(_elapsed);
+	ptrNewPosMsg->SetNewPos(GetPos());
+	m_CmpOwner->SendMsg(ptrNewPosMsg);
 }
 
 void CMP_Transform::RecibirMsg(Message* _msgType)
 {
 	NewPosMsg* auxPosMsg = dynamic_cast<NewPosMsg*>(_msgType);
-	if (auxPosMsg) 
-	{ 
+	if (auxPosMsg)
+	{
 		SetPos(auxPosMsg->GetNewPos());
 	}
 
@@ -57,13 +57,49 @@ CMP_Collider::~CMP_Collider()
 bool CMP_Collider::IsColliding(Entity* _otherEntity)
 {
 
-	//if (this->m_CmpOwner != _otherEntity)
-	//{
-	//	if (vlen2(GetPos() - LogicManager::GetInstance()->m_entitiesList[_otherEntity->GetID()]->FindComponent<CMP_Transform>()->GetPos()) <= dist)
-	//	{
-	//		return true;
-	//	}
-	//}
+	if (this->m_CmpOwner != _otherEntity)
+	{
+		if (m_CmpOwner->IsActive())
+		{
+
+			if (_otherEntity->IsActive())
+			{
+				CMP_Transform* pMyTransform = m_CmpOwner->FindComponent<CMP_Transform>();
+				CMP_Transform* pOtherTransform = _otherEntity->FindComponent<CMP_Transform>();
+				int iMyDirection = m_CmpOwner->FindComponent<CMP_Transform>()->GetMoveDir();
+
+				if (((pMyTransform->GetPos().x - pOtherTransform->GetPos().x) <= 1.f) &&
+					((pMyTransform->GetPos().x - pOtherTransform->GetPos().x) >= -1.f))
+				{
+					if ((((pMyTransform->GetPos().x + iMyDirection) - pOtherTransform->GetPos().x) <= 1.f) &&
+						(((pMyTransform->GetPos().x + iMyDirection) - pOtherTransform->GetPos().x) >= -0.5f))
+					{
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+
+
+
+				
+				
+
+
+
+
+				
+
+
+
+			}
+		}
+	}
 
 
 	/*LogicManager::GetInstance();
@@ -81,26 +117,25 @@ bool CMP_Collider::IsColliding(Entity* _otherEntity)
 
 	return false;
 
-	
+
 }
 
 void CMP_Collider::Slot(const float& _elapsed)
 {
-	
 
-	/*for (auto& _otherEntity : LogicManager::GetInstance()->m_entitiesList)
+	for (auto& _otherEntity : LogicManager::GetInstance().m_entitiesList)
 	{
 		if (IsColliding(_otherEntity))
 		{
 			ptrCollisionMsg->SetCollision(true);
 			ptrCollisionMsg->SetIndex(_otherEntity->GetID());
-
 			m_CmpOwner->SendMsg(ptrCollisionMsg);
 			break;
 		}
+
 	}
 
-	m_CmpOwner->SendMsg(ptrLimitCollisionMsg);*/
+	m_CmpOwner->SendMsg(ptrLimitCollisionMsg);
 }
 
 void CMP_Collider::RecibirMsg(Message* _msgType)

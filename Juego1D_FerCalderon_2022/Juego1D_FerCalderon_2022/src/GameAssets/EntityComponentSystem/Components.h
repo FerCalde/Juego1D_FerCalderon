@@ -31,7 +31,10 @@ public:
 	vec2& GetPos() { return m_pos; }
 	vec2& GetVel() { return m_vel; }
 
-	void UpdatePosition(const float& _elapsed) { m_pos += m_vel * _elapsed * GetMoveDir(); }
+	void UpdatePosition(const float& _elapsed) {
+		m_pos += m_vel * _elapsed * GetMoveDir();
+		/*std::cout << "\nPosition entity `[" << m_CmpOwner->GetID() << "] es->> " << m_CmpOwner->FindComponent<CMP_Transform>()->GetPos().x;*/
+	}
 
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override;
@@ -47,7 +50,7 @@ private:
 
 public:
 
-	float radius = 0;
+	float radius = 0.5f;
 	CMP_Collider();
 	virtual ~CMP_Collider();
 

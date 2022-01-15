@@ -81,8 +81,8 @@ int main()
 
 	// End app.
 
-	LogicManager::GetInstance().ShutdownLogic();
 	RenderEngine::GetInstance().ShutdownRender();
+	LogicManager::GetInstance().ShutdownLogic();
 	//ptrLogicManager->ShutdownLogic();
 	//ptrRenderManager->ShutdownRender();
 
