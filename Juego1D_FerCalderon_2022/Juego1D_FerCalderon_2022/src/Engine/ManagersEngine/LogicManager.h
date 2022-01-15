@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <stdlib.h>     /* srand, rand */
 #include "..\miscellaneous\vector2d.h"
 #include "..\..\GameAssets\EnemyScripts\EnemyEntity.h"
 #include "..\..\GameAssets\EntityComponentSystem\EntityAndComponent.h"
@@ -23,6 +24,10 @@ struct CGameManagerInfo
 	int iEnemiesDead = 0;
 	void AddEnemyDead() { iEnemiesDead++; }
 	int GetEnemiesDead() { return iEnemiesDead; }
+
+
+
+
 };
 
 class LogicManager : public ISingleton<LogicManager>
@@ -39,9 +44,12 @@ public:
 
 
 	//Spawn Variables
+	//A medida que pasa el tiempo y se Spawnean Enemigos, se reduce el tiempo entre spawns para dar dificultad
 	float m_TimeSpawn = 0.f;
 	float m_TimeSpawn_MAX = 1.f; //2Segundos,  lo calculo por segun los frames que pasan (60fps)
 
+	Entity* FindGameObjectOfTag(Entity::ETagEntity _tagFinder);
+	
 	void InitGameObjects();
 	void InitLogic();
 
@@ -49,14 +57,9 @@ public:
 	void LogicWorldSlot(const float& _fFixedTick);
 
 	void SpawnEnemy(const float& _fFixedTick);
-	Entity* FindGameObjectOfTag(Entity::ETagEntity _tagFinder);
+	void RandomEnemySide(Entity* currentEnemyToSpawn);
 	void UpdateMapEntityPositions(Entity*& currentEntity);
 	
-	/*void UpdatePlayerLife(bool _isAlive)
-	{
-		m_GameManager->isPlayerAlive = _isAlive;
-	}*/
-
 	void ShutdownLogic();
 	
 };

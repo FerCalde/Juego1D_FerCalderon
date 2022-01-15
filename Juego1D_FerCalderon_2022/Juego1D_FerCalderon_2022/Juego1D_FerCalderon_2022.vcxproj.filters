@@ -57,9 +57,6 @@
     <ClCompile Include="src\GameAssets\EnemyScripts\EnemyEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameAssets\PlayerScripts\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -96,9 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GameAssets\EnemyScripts\EnemyEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameAssets\EntityComponentSystem\Components\CMP_Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Juego1D_FerCalderon_2022.h">

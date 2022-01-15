@@ -9,7 +9,7 @@ public:
 	{
 		SetTag(Entity::ETagEntity::Enemy);
 		m_eTagIgnore = Entity::ETagEntity::Enemy;
-
+		
 		/*Component* auxT = new CMP_Transform;
 		AddComponent(auxT);
 

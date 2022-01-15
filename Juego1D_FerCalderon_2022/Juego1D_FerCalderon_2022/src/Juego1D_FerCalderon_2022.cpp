@@ -15,11 +15,11 @@ int main()
 	ptrTimerManager->StartCounter();
 
 	CInputManager::CreateSingleton();
-	LogicManager::CreateSingleton();
 	RenderEngine::CreateSingleton();
+	LogicManager::CreateSingleton();
 
-	LogicManager::GetInstance().InitLogic();
 	RenderEngine::GetInstance().InitRender();
+	LogicManager::GetInstance().InitLogic();
 	
 	while (LogicManager::GetInstance().m_GameManager->isPlayerAlive) // Controlling a request to terminate an application.
 	{

@@ -29,7 +29,6 @@ public:
 
 };
 
-class CMP_Transform;
 class Entity
 {
 private:
@@ -37,7 +36,7 @@ private:
 	std::vector<Component*> m_ComponentList;
 
 public:
-	Entity() {  }
+	Entity() { SetTag(ETagEntity::Invalid); }
 	~Entity();
 
 	void SetID(size_t _ID) { id = _ID; }
@@ -48,7 +47,12 @@ public:
 	void SendMsg(Message* _msgType);
 
 	void SetActive(bool _isActive) { isActive = _isActive; }
-	void ActivateEntity() { isActive = true; }
+	void ActivateEntity() {
+		/*vec2 auxVelInit = FindComponent<CMP_Transform>()->GetVelInit();
+		FindComponent<CMP_Transform>()->SetVelInit(auxVelInit);*/
+
+		isActive = true;
+	}
 	void DesactivateEntity() { isActive = false; }
 	bool IsActive() { return isActive; }
 
