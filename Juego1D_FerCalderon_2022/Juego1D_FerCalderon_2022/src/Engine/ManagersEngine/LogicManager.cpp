@@ -6,37 +6,7 @@
 
 void LogicManager::InitLogic()
 {
-	Entity* auxNewEntity = new Player();
-	auxNewEntity->AddComponent(new CMP_Transform);
-	auxNewEntity->AddComponent(new CMP_Render);
-
-	//auxNewEntity->AddComponent(new CMP_Transform);
-	float auxVel = 10;
-	float auxPos = 15;
-	char auxSymbol = 'X';
-
-	auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
-	auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
-	auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
-	auxNewEntity->ActivateEntity();
-	m_entitiesList.push_back(auxNewEntity);
-
-
-	auxNewEntity = new CEnemy();
-	auxNewEntity->AddComponent(new CMP_Transform);
-	auxNewEntity->AddComponent(new CMP_Render);
-
-	auxVel = 0;
-	auxPos = 5;
-	auxSymbol = '*';
-
-	auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
-	auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
-	auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
-	auxNewEntity->ActivateEntity();
-
-	m_entitiesList.push_back(auxNewEntity);
-
+	InitGameObjects();
 	//CreateSingleton();
 	/*LogicManager* instanceLogicManager = LogicManager::GetInstance();
 	LoadTextures();
@@ -63,29 +33,87 @@ void LogicManager::InitLogic()
 	}
 	auxNewEntity = nullptr;*/
 }
+void LogicManager::InitGameObjects()
+{
+	int iEntityID = 0;
+
+	Entity* auxNewEntity = new Player();
+	auxNewEntity->SetID(iEntityID);
+
+	auxNewEntity->AddComponent(new CMP_Transform);
+	auxNewEntity->AddComponent(new CMP_Collider);
+	auxNewEntity->AddComponent(new CMP_InputController);
+	auxNewEntity->AddComponent(new CMP_Render);
+	//auxNewEntity->AddComponent(new CMP_Shooter);
+
+	//auxNewEntity->AddComponent(new CMP_Transform);
+	float auxVel = 10;
+	float auxPos = 15;
+	char auxSymbol = 'X';
+
+	auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
+	auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
+	auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
+	auxNewEntity->ActivateEntity();
+
+	m_entitiesList.push_back(auxNewEntity);
+	iEntityID++;
+
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		auxNewEntity = new CEnemy();
+		auxNewEntity->AddComponent(new CMP_Transform);
+		auxNewEntity->AddComponent(new CMP_Collider);
+		auxNewEntity->AddComponent(new CMP_Render);
+
+		auxVel = 10;
+		auxPos = 0;
+		auxSymbol = '*';
+
+		auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
+		auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
+		auxNewEntity->FindComponent<CMP_Transform>()->SetMoveDir(1);
+		auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
+		auxNewEntity->SetID(iEntityID);
+		auxNewEntity->DesactivateEntity();
+
+		m_entitiesList.push_back(auxNewEntity);
+		iEntityID++;
+
+	}
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		auxNewEntity = new CBullet();
+		auxNewEntity->AddComponent(new CMP_Transform);
+		auxNewEntity->AddComponent(new CMP_Collider);
+		auxNewEntity->AddComponent(new CMP_Render);
+
+		auxVel = 0;
+		auxPos = 0;
+		auxSymbol = 'o';
+
+		auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
+		auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
+		auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
+		auxNewEntity->SetID(iEntityID);
+		auxNewEntity->DesactivateEntity();
+
+		m_entitiesList.push_back(auxNewEntity);
+		iEntityID++;
+	}
+}
 
 void LogicManager::ShutdownLogic()
 {
 
-	/*for (auto& _currentEntity : m_entitiesList)
+	for (auto& _currentEntity : m_entitiesList)
 	{
 		delete _currentEntity;
 		_currentEntity = nullptr;
 	}
 	m_entitiesList.clear();
-
+	/*
 	ShutdownTextures();*/
-}
-
-
-void LogicManager::LoadTextures()
-{
-
-}
-
-void LogicManager::ShutdownTextures()
-{
-
 }
 
 
@@ -106,6 +134,8 @@ void LogicManager::LogicSlot(MyTimerManager& _timerManager)
 
 void LogicManager::LogicWorldSlot(const float& _fFixedTick)
 {
+	SpawnEnemy(_fFixedTick);
+
 		RenderEngine::GetInstance().GetMap()->SetCleanMap(); //Seteo el mapa limpio para reiniciar las posiciones que eran ocupadas por entidades
 	for (auto& entity : m_entitiesList)
 	{
@@ -116,14 +146,24 @@ void LogicManager::LogicWorldSlot(const float& _fFixedTick)
 
 
 
-
-
-
-
-
-
 }
+void LogicManager::SpawnEnemy(const float& _fFixedTick)
+{
+	m_TimeSpawn += _fFixedTick;
+	if (m_TimeSpawn >= m_TimeSpawn_MAX)
+	{
+		for (size_t i = 0; i < LogicManager::GetInstance().m_entitiesList.size(); i++)
+		{
+			if (!LogicManager::GetInstance().m_entitiesList[i]->IsActive())
+			{
+				LogicManager::GetInstance().m_entitiesList[i]->ActivateEntity();
+				break;
+			}
+		}
 
+		m_TimeSpawn = 0;
+	}
+}
 void LogicManager::UpdateMapEntityPositions(Entity*& currentEntity)
 {
 
@@ -150,5 +190,4 @@ void LogicManager::UpdateMapEntityPositions(Entity*& currentEntity)
 	}
 
 }
-
 

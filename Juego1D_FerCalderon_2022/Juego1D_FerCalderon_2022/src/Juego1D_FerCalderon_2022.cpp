@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include "Engine/ManagersEngine/InputManager.h"
 #include "Engine/ManagersEngine/LogicManager.h"
 #include "Engine/ManagersEngine/RenderManager.h"
 #include "Engine/ManagersEngine/TimerManager.h"
@@ -46,13 +47,15 @@ using namespace std;
 int main()
 {
 
-	//myMap* o_myMap = new myMap;
-
 	MyTimerManager* ptrTimerManager = new MyTimerManager();
 	ptrTimerManager->StartCounter();
 
+	CInputManager::CreateSingleton();
 	LogicManager::CreateSingleton();
 	RenderEngine::CreateSingleton();
+
+
+
 	LogicManager::GetInstance().InitLogic();
 	RenderEngine::GetInstance().InitRender();
 
@@ -64,23 +67,22 @@ int main()
 
 	ptrLogicManager->InitLogic();
 	ptrRenderManager->InitRender();*/
-
+	
 	while (true) // Controlling a request to terminate an application.
 	{
-
+		
 		LogicManager::GetInstance().LogicSlot(*ptrTimerManager);
 		RenderEngine::GetInstance().RenderSlot(ptrTimerManager->GetFPSRate(), ptrTimerManager->GetLogicCurrentTime(), ptrTimerManager->GetTime());
+		
 
-
-		/*string mapString (o_myMap->ptrMyBoard);
-		cout << mapString <<"\n";*/
+		
 	
 	}
 
 	// End app.
 
-	LogicManager::GetInstance().InitLogic();
-	RenderEngine::GetInstance().InitRender();
+	LogicManager::GetInstance().ShutdownLogic();
+	RenderEngine::GetInstance().ShutdownRender();
 	//ptrLogicManager->ShutdownLogic();
 	//ptrRenderManager->ShutdownRender();
 

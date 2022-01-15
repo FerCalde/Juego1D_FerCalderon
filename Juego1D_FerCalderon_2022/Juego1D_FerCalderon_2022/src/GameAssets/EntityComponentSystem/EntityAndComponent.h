@@ -23,6 +23,7 @@ public:
 
 };
 
+class CMP_Transform;
 class Entity
 {
 private:
@@ -30,7 +31,7 @@ private:
 	std::vector<Component*> m_ComponentList;
 
 public:
-	Entity() { }
+	Entity() {  }
 	~Entity();
 
 	void SetID(size_t _ID) { id = _ID; }
@@ -42,7 +43,7 @@ public:
 	
 	void SetActive(bool _isActive) { isActive = _isActive; }
 	void ActivateEntity() { isActive = true; }
-	void DesactivateEntitu() { isActive = false; }
+	void DesactivateEntity() { isActive = false; }
 	bool IsActive() { return isActive; }
 
 	template<typename T>
