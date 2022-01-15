@@ -18,13 +18,14 @@ public:
 	CMP_Transform();
 	virtual ~CMP_Transform();
 
+	void SetPos(const float& _posX) { m_pos.x = _posX; }
 	void SetPos(const vec2& _pos) { m_pos = _pos; }
 	void SetVel(const vec2& _vel) { m_vel = _vel; }
 
 	vec2& GetPos() { return m_pos; }
 	vec2& GetVel() { return m_vel; }
 
-	void UpdatePosition(const float& _elapsed) { m_pos += m_vel * _elapsed; }
+	void UpdatePosition(const float& _elapsed) { m_pos += m_vel * _elapsed;}
 	
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override;
