@@ -93,9 +93,7 @@ public:
 	CMP_InputController() {}
 	virtual ~CMP_InputController() {}
 
-	void CheckInput();
-
-
+	void InputMovement();
 
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override;
@@ -112,4 +110,11 @@ public:
 	// Interfaz
 	virtual void Slot(const float& _elapsed) override;
 	virtual void RecibirMsg(Message* _msgType) override {};
+
+
+private:
+	float m_TimeFireSpawn_MAX = 0.3f;
+	float m_TimeFireSpawn = m_TimeFireSpawn_MAX;
+public:
+	void SpawnBullet(const int& movDir);
 };

@@ -40,11 +40,11 @@ void LogicManager::InitGameObjects()
 	Entity* auxNewEntity = new Player();
 	auxNewEntity->SetID(iEntityID);
 
-	auxNewEntity->AddComponent(new CMP_Transform);
+	auxNewEntity->AddComponent(new CMP_Transform);//SIEMPRE LO PRIMERO!
 	auxNewEntity->AddComponent(new CMP_Collider);
 	auxNewEntity->AddComponent(new CMP_InputController);
 	auxNewEntity->AddComponent(new CMP_Render);
-	//auxNewEntity->AddComponent(new CMP_Shooter);
+	auxNewEntity->AddComponent(new CMP_Shooter);
 
 	//auxNewEntity->AddComponent(new CMP_Transform);
 	float auxVel = 10;
@@ -54,6 +54,8 @@ void LogicManager::InitGameObjects()
 	auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
 	auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
 	auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
+	auxNewEntity->SetTag(Entity::ETagEntity::Player);
+
 	auxNewEntity->ActivateEntity();
 
 	m_entitiesList.push_back(auxNewEntity);
@@ -75,6 +77,8 @@ void LogicManager::InitGameObjects()
 		auxNewEntity->FindComponent<CMP_Transform>()->SetMoveDir(1);
 		auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 		auxNewEntity->SetID(iEntityID);
+		auxNewEntity->SetTag(Entity::ETagEntity::Enemy);
+
 		auxNewEntity->DesactivateEntity();
 
 		m_entitiesList.push_back(auxNewEntity);
@@ -88,19 +92,21 @@ void LogicManager::InitGameObjects()
 		auxNewEntity->AddComponent(new CMP_Collider);
 		auxNewEntity->AddComponent(new CMP_Render);
 
-		auxVel = 0;
+		auxVel = 10;
 		auxPos = 0;
-		auxSymbol = 'o';
+		auxSymbol = '8';
 
 		auxNewEntity->FindComponent<CMP_Transform>()->SetPos(auxPos);
 		auxNewEntity->FindComponent<CMP_Transform>()->SetVel(auxVel);
 		auxNewEntity->FindComponent<CMP_Render>()->SetSymbol(auxSymbol);
 		auxNewEntity->SetID(iEntityID);
+		auxNewEntity->SetTag(Entity::ETagEntity::Bullet);
 		auxNewEntity->DesactivateEntity();
 
 		m_entitiesList.push_back(auxNewEntity);
 		iEntityID++;
 	}
+	
 }
 
 void LogicManager::ShutdownLogic()
@@ -167,6 +173,20 @@ void LogicManager::SpawnEnemy(const float& _fFixedTick)
 
 		m_TimeSpawn = 0;
 	}
+}
+Entity* LogicManager::FindGameObjectOfTag(Entity::ETagEntity _tagFinder)
+{
+	for (Entity* currentEntity : m_entitiesList)
+	{
+		if (!currentEntity->IsActive())
+		{
+
+			return (currentEntity->HasTag(_tagFinder)) ? currentEntity : nullptr;
+			break;
+		}
+
+	}
+	return nullptr;
 }
 void LogicManager::UpdateMapEntityPositions(Entity*& currentEntity)
 {

@@ -230,10 +230,10 @@ char CMP_Render::GetSymbol() const
 
 void CMP_InputController::Slot(const float& _elapsed)
 {
-	CheckInput();
+	InputMovement();
 }
 
-void CMP_InputController::CheckInput()
+void CMP_InputController::InputMovement()
 {
 	if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_A))
 	{
@@ -252,33 +252,62 @@ void CMP_InputController::CheckInput()
 void CMP_Shooter::Slot(const float& _elapsed)
 {
 	// Chequear si ha pasado el tiempo entre disparos
-	if (true)//)m_fTimeUntilNextAttack == 0.f)
+	if (m_TimeFireSpawn>=m_TimeFireSpawn_MAX)//)m_fTimeUntilNextAttack == 0.f)
 	{
 		// Comprobar si se ha pulsado alguna tecla asignada al disparo
-		int iDirection = 0;
+		int auxFireDirection = 0;
 		if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_J))
 		{
-			iDirection = -1;
+			auxFireDirection = -1;
+			std::cout << "Left FIRE!\n";
 		}
 		else if (CInputManager::GetInstance().IsKeyPressed(KEYBOARD_L))
 		{
-			iDirection = 1;
+			auxFireDirection = 1;
+			std::cout << "RIGHT FIRE!\n";
 		}
 		// En caso de detectar input, spawnear bala
-		if (iDirection != 0)
+		if (auxFireDirection != 0)
 		{
-			//SpawnBullet(iDirection);
-			// Una vez spawneada, cambiar variable contador para empezar la cuenta atras
-			//m_fTimeUntilNextAttack = m_fTimeBetweenAttacks;
+			SpawnBullet(auxFireDirection);
+			// Restablecer fireRate
+			m_TimeFireSpawn = 0;
 		}
 	}
 	else
 	{
-		// Cuenta atras
-		/*m_fTimeUntilNextAttack -= _elapsed;
-		if (m_fTimeUntilNextAttack < 0.f)
-			m_fTimeUntilNextAttack = 0.f;*/
+		//Temporizador FireRate
+		m_TimeFireSpawn += _elapsed;
+		if (m_TimeFireSpawn > m_TimeFireSpawn_MAX)
+		{
+			m_TimeFireSpawn = m_TimeFireSpawn_MAX;
+		}
 	}
 
 
+}
+
+void CMP_Shooter::SpawnBullet(const int& movDir)
+{
+	
+	for (Entity* currentEntity : LogicManager::GetInstance().m_entitiesList)
+	{
+		if (!currentEntity->IsActive())
+		{
+			if (currentEntity->HasTag(Entity::ETagEntity::Bullet))
+			{
+	//Pido una bala disponible al Gestor de entidades. Debe estar desactivada esa bala para considerarse disponible
+				std::cout << "FIRE!\n";
+
+				vec2 auxFirePoint(0,0);
+					auxFirePoint.x= m_CmpOwner->FindComponent<CMP_Transform>()->GetPos().x + movDir;
+				currentEntity->FindComponent<CMP_Transform>()->SetPos(auxFirePoint);
+				currentEntity->FindComponent<CMP_Transform>()->SetMoveDir(movDir);
+				(movDir > 0) ? currentEntity->FindComponent<CMP_Render>()->SetSymbol('>') : currentEntity->FindComponent<CMP_Render>()->SetSymbol('<');
+				currentEntity->ActivateEntity();
+				break;
+			}
+		}
+	}
+	//auxBullet = nullptr;
 }

@@ -11,7 +11,10 @@ class CMP_Transform;
 class Player : public Entity
 {
 public:
-	Player() {/*Component* auxT = new CMP_Transform;
+	Player() {
+		SetTag(Entity::ETagEntity::Player);
+		
+		/*Component* auxT = new CMP_Transform;
 		AddComponent(auxT);
 
 		auxT = new CMP_Collider;

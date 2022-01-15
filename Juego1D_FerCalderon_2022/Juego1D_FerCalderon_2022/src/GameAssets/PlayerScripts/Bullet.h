@@ -4,7 +4,7 @@
 class CBullet : public Entity
 {
 public:
-	CBullet(){}
+	CBullet()  {SetTag(Entity::ETagEntity::Bullet); }
 	~CBullet(){}
 
 	void SetInstigator(Entity* _instigator) { m_Instigator = _instigator; }
