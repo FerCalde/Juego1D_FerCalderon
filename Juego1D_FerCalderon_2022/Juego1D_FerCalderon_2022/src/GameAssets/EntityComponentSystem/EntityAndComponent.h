@@ -39,6 +39,11 @@ public:
 	void Slot(float _elapsed);
 	void AddComponent(Component* _componentAdded);
 	void SendMsg(Message* _msgType);
+	
+	void SetActive(bool _isActive) { isActive = _isActive; }
+	void ActivateEntity() { isActive = true; }
+	void DesactivateEntitu() { isActive = false; }
+	bool IsActive() { return isActive; }
 
 	template<typename T>
 	T* FindComponent()
@@ -51,4 +56,8 @@ public:
 		}
 		return NULL;
 	}
+
+protected:
+	bool isActive = false;
+
 };

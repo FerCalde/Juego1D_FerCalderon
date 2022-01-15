@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
 #include "..\miscellaneous\vector2d.h"
+#include "..\..\GameAssets\EnemyScripts\EnemyEntity.h"
 #include "..\..\GameAssets\EntityComponentSystem\EntityAndComponent.h"
-#include "TimerManager.h"
+#include "..\..\GameAssets\PlayerScripts\PlayerEntity.h"
 #include "ISingleton.h"
+#include"RenderManager.h"
+#include "TimerManager.h"
 
 class LogicManager : public ISingleton<LogicManager>
 {
@@ -25,7 +28,7 @@ public:
 	void LogicSlot(MyTimerManager& _timerManager);
 	void LogicWorldSlot(const float& _fFixedTick);
 
-	
+	void UpdateMapEntityPositions(Entity*& currentEntity);
 
 };
 

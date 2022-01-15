@@ -12,6 +12,7 @@
 
 struct myMap
 {
+	friend class LogicManager;
 	const int ROWS = 30;
 	const int COLUMNS = 3;
 
@@ -29,6 +30,10 @@ struct myMap
 	void InitDefaultMap()
 	{
 		ptrMyBoard = new char[ROWS];
+		SetCleanMap();
+	}
+	void SetCleanMap()
+	{
 		for (int i = 0; i < ROWS; i++)
 		{
 			ptrMyBoard[i] = '_';
@@ -54,19 +59,20 @@ private:
 public:
 
 	myMap* o_myMap=nullptr;
+	
 	const int WEIGHT_MAP = 50;
 
 	void InitRender();
 	void RenderSlot(const float& _fps, const float& _elapsed, const float& _currentTime);
+	void UpdateRenderMapBoard(char* _auxLogicMap_);
 	void ShutdownRender();
-
-	void UpdateGameObjectPosition(Entity& _entityRenderToUpdate);
 
 	inline void ClearScene()
 	{
 		system("CLS");
 	}
-
+	
+	myMap* GetMap(){return o_myMap;}
 };
 
 
