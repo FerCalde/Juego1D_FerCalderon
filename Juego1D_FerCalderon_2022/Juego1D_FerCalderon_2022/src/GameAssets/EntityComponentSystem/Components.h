@@ -15,6 +15,7 @@ private:
 	vec2 m_vel;
 	vec2 m_pos;
 	int m_moveDirection = 0;
+	vec2 m_velInit;
 
 	NewPosMsg* ptrNewPosMsg;
 
@@ -26,10 +27,15 @@ public:
 	void SetPos(const float& _posX) { m_pos.x = _posX; }
 	void SetPos(const vec2& _pos) { m_pos = _pos; }
 	void SetVel(const vec2& _vel) { m_vel = _vel; }
+	void SetVelInit(const vec2& _velInit) {
+		m_velInit = _velInit;
+		SetVel(m_velInit);
+	}
 
 	int GetMoveDir() { return m_moveDirection; }
 	vec2& GetPos() { return m_pos; }
 	vec2& GetVel() { return m_vel; }
+	vec2& GetVelInit() { return m_velInit; }
 
 	void UpdatePosition(const float& _elapsed) {
 		m_pos += m_vel * _elapsed * GetMoveDir();

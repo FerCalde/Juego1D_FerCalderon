@@ -76,7 +76,7 @@ public:
 	ETagEntity GetTag() const { return m_eTag; }
 	bool HasTag(ETagEntity _eTag) const { return m_eTag == _eTag; }
 	void SetTag(const ETagEntity& _eTag) { m_eTag = _eTag; }
+	ETagEntity m_eTagIgnore;
 private:
 	ETagEntity m_eTag;
-	ETagEntity m_eTagIgnore;
 };
